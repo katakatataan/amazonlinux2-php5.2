@@ -53,9 +53,9 @@ RUN cd ${LIBRARY_DIR}/bison-2.4.1 \
       && make \
       && make install
 
-COPY ./php-5.2.17.patch ${PHPENV_ROOT}/plugins/php-build/share/php-build/patches
+COPY ./01php-5.2.17.patch ${PHPENV_ROOT}/plugins/php-build/share/php-build/patches/01php-5
 
-COPY ./php-5.2.17-for-apache.2.4.patch ${PHPENV_ROOT}/plugins/php-build/share/php-build/patches/php-5.2.17-for-apache2.4.patch
+COPY ./00php-5.2.17-for-apache.2.4.patch ${PHPENV_ROOT}/plugins/php-build/share/php-build/patches/00php-5.2.17-for-apache2.4.patch
 
 COPY ./5.2.17 ${PHPENV_ROOT}/plugins/php-build/share/php-build/definitions/5.2.17
 
@@ -63,4 +63,6 @@ SHELL ["/bin/bash", "-c"]
 
 RUN yum install -y libtidy libtidy-devel patch
 RUN ${PHPENV_ROOT}/bin/phpenv install 5.2.17
+
+CMD [ "/usr/sbin/httpd", "-D", "FOREGROUND" ]
 
