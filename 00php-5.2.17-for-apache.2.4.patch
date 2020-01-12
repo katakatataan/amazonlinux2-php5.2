@@ -1,8 +1,6 @@
-diff --git a/sapi/apache2handler/php_functions.c b/sapi/apache2handler/php_functions.c
-index ab0bdb3..43d070f 100644
---- a/sapi/apache2handler/php_functions.c
-+++ b/sapi/apache2handler/php_functions.c
-@@ -383,7 +383,7 @@ PHP_MINFO_FUNCTION(apache)
+--- sapi/apache2handler/php_functions.c.2012-09-07 15:15:37.403662055 +0900
++++ sapi/apache2handler/php_functions.c 2012-09-07 14:58:38.755648593 +0900
+@@ -383,7 +383,7 @@
         char *p;
         server_rec *serv = ((php_struct *) SG(server_context))->r->server;
  #if !defined(WIN32) && !defined(WINNT) && !defined(NETWARE)
@@ -11,7 +9,7 @@ index ab0bdb3..43d070f 100644
  #endif
 
         for (n = 0; ap_loaded_modules[n]; ++n) {
-@@ -414,7 +414,7 @@ PHP_MINFO_FUNCTION(apache)
+@@ -414,7 +414,7 @@
         php_info_print_table_row(2, "Hostname:Port", tmp);
 
  #if !defined(WIN32) && !defined(WINNT) && !defined(NETWARE)

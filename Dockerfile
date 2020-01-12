@@ -53,16 +53,30 @@ RUN cd ${LIBRARY_DIR}/bison-2.4.1 \
       && make \
       && make install
 
-COPY ./01php-5.2.17.patch ${PHPENV_ROOT}/plugins/php-build/share/php-build/patches/01php-5
+COPY ./01php-5.2.17.patch ${PHPENV_ROOT}/plugins/php-build/share/php-build/patches/
+COPY ./00php-5.2.17-for-apache.2.4.patch ${PHPENV_ROOT}/plugins/php-build/share/php-build/patches/
 
-COPY ./00php-5.2.17-for-apache.2.4.patch ${PHPENV_ROOT}/plugins/php-build/share/php-build/patches/00php-5.2.17-for-apache2.4.patch
+COPY ./00-base.conf /etc/httpd/conf.modules.d/00-base.conf
+COPY ./httpd.conf /etc/httpd/conf/httpd.conf
 
 COPY ./5.2.17 ${PHPENV_ROOT}/plugins/php-build/share/php-build/definitions/5.2.17
+COPY ./sed_unixd.sh ${PHPENV_ROOT}/plugins/php-build/share/php-build/before-install.d/
+RUN chmod +x ${PHPENV_ROOT}/plugins/php-build/share/php-build/before-install.d/sed_unixd.sh
+
+RUN echo '' >> /etc/profile
+ENV PATH /root/.phpenv/bin:$PATH
 
 SHELL ["/bin/bash", "-c"]
+RUN env
 
 RUN yum install -y libtidy libtidy-devel patch
-RUN ${PHPENV_ROOT}/bin/phpenv install 5.2.17
+RUN rm -rf /tmp/php-build
+RUN phpenv install 5.2.17
+RUN set -eux; \
+	{ \
+		eval "$(phpenv init -)"; \
+		phpenv global 5.2.17; \
+	}
 
 CMD [ "/usr/sbin/httpd", "-D", "FOREGROUND" ]
 
