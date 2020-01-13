@@ -77,6 +77,7 @@ RUN set -eux; \
 		eval "$(phpenv init -)"; \
 		phpenv global 5.2.17; \
 	}
+COPY ./index.php /var/www/html/index.php
 
 CMD [ "/usr/sbin/httpd", "-D", "FOREGROUND" ]
 
