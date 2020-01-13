@@ -53,17 +53,11 @@ RUN cd ${LIBRARY_DIR}/bison-2.4.1 \
       && make \
       && make install
 
-COPY ./01php-5.2.17.patch ${PHPENV_ROOT}/plugins/php-build/share/php-build/patches/
-COPY ./00php-5.2.17-for-apache.2.4.patch ${PHPENV_ROOT}/plugins/php-build/share/php-build/patches/
+COPY ./config/php-build/ ${PHPENV_ROOT}/plugins/php-build/share/php-build/
 
-COPY ./00-base.conf /etc/httpd/conf.modules.d/00-base.conf
-COPY ./httpd.conf /etc/httpd/conf/httpd.conf
-
-COPY ./5.2.17 ${PHPENV_ROOT}/plugins/php-build/share/php-build/definitions/5.2.17
-COPY ./sed_unixd.sh ${PHPENV_ROOT}/plugins/php-build/share/php-build/before-install.d/
+COPY ./config/apache/ /etc/httpd/
 RUN chmod +x ${PHPENV_ROOT}/plugins/php-build/share/php-build/before-install.d/sed_unixd.sh
 
-RUN echo '' >> /etc/profile
 ENV PATH /root/.phpenv/bin:$PATH
 
 SHELL ["/bin/bash", "-c"]
@@ -80,4 +74,3 @@ RUN set -eux; \
 COPY ./index.php /var/www/html/index.php
 
 CMD [ "/usr/sbin/httpd", "-D", "FOREGROUND" ]
-
