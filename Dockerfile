@@ -2,9 +2,6 @@ FROM amazonlinux:2
 
 ENV PHPENV_ROOT  /root/.phpenv
 ENV LIBRARY_DIR /usr/local/src
-RUN yum install -y git
-RUN git clone git://github.com/phpenv/phpenv.git ${PHPENV_ROOT}
-RUN git clone https://github.com/php-build/php-build ${PHPENV_ROOT}/plugins/php-build
 RUN yum install -y \
       tar \
       libxml2 \
@@ -27,10 +24,12 @@ RUN yum install -y \
       re2c \
       flex \
       mysql-devel \
-      libtidy \
-      libtidy-devel \
       wget \
-      vim
+      vim \
+      git
+
+RUN git clone git://github.com/phpenv/phpenv.git ${PHPENV_ROOT}
+RUN git clone https://github.com/php-build/php-build ${PHPENV_ROOT}/plugins/php-build
 
 RUN amazon-linux-extras install -y epel
 RUN yum install -y --enablerepo=epel libmcrypt libmcrypt-devel
@@ -61,10 +60,8 @@ RUN chmod +x ${PHPENV_ROOT}/plugins/php-build/share/php-build/before-install.d/s
 ENV PATH /root/.phpenv/bin:$PATH
 
 SHELL ["/bin/bash", "-c"]
-RUN env
 
 RUN yum install -y libtidy libtidy-devel patch
-RUN rm -rf /tmp/php-build
 RUN phpenv install 5.2.17
 RUN set -eux; \
 	{ \
@@ -73,4 +70,5 @@ RUN set -eux; \
 	}
 COPY ./index.php /var/www/html/index.php
 
+WORKDIR /var/www/html
 CMD [ "/usr/sbin/httpd", "-D", "FOREGROUND" ]
