@@ -50,7 +50,7 @@ We also use [php-bulid](https://github.com/php-build/php-build) for phpevn plugi
 ### Apache Configuration ./config/apache
 
 This config file is used for apache runtime configuration.
-If you change apache config setting, change this files.
+If you want change apache config setting, change these files.
 Root configuration is ./config/apache/conf/httpd.conf.
 
 This configuration is copied from amazonlinux2 default apache configuration using docker copy command.
@@ -66,7 +66,7 @@ I changed a little bit for executing php.
 ### php-build Configuration ./config/php-build
 
 This config file is used for php-build configuration.
-If you change php-build config setting, change this files.
+If you want change php-build config setting, change these files.
 For details, Please read php-build manual.
 
 For amazonlinux2, we add 2 patche files.
@@ -80,8 +80,7 @@ I applied patch file.
 patch_file "01php-5.2.17.patch"
 ```
 
-I write shellscript ./config/php-build/before-install.d/sed_unixd.sh this is do the same responsibility with patch file.
-I just don't know create patch and pathc executing order. sorry.
+I wrote shellscript './config/php-build/before-install.d/sed_unixd.sh' this is do the same responsibility with patch file but not patch file, because I just don't know how to create patch and patch files executing order! Sorry.
 
 
 ### installing php extensions
@@ -103,12 +102,15 @@ please add file database.
 "zendopcache","http://pecl.php.net/get/zendopcache-$version.tgz","https://github.com/zendtech/ZendOptimizerPlus.git",,"--enable-opcache","zend_extension","zendopcache_after_install"
 ```
 
-and relating specic version of php5.2 build definitions like below.
+and relating specific version of php5.2 build definitions like below.
 
 ``` config/php-build/definitions/5.2.17
 install_xdebug "2.2.7"
 ```
 
+## I confirmed to work php extensions
+
+pecl [yaml, oci8, oci-postgres, oci-oracle]
 
 ## php configuration reference
 
